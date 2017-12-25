@@ -34,6 +34,7 @@ do_cat(const char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0) die(path);
 	for (;;) {
+		// fdの値はストリームで一つ。どれくらいreadで読み込んだかどうかは、ストリームの中でファイルオフセットとしてもっている。lseek()あたりで学ぶ。
 		n = read(fd, buf, sizeof buf);
 		if (n<0) die(path);
 		if (n == 0) break;
