@@ -7,14 +7,14 @@
 
 static void do_cat(const char *path);
 static void die(const char *s);
+static void do_stdin_cat();
 
 int
 main(int argc, char *argv[])
 {
 	int i;
 	if (argc < 2) {
-		fprintf(stderr, "%s: file name not given\n", argv[0]);
-		exit(1);
+		do_stdin_cat();
 	}
 	for (i=1; i<argc; i++){
 		do_cat(argv[i]);
@@ -23,6 +23,15 @@ main(int argc, char *argv[])
 }
 
 #define BUFFER_SIZE 2048
+
+static void
+do_stdin_cat()
+{
+	int n;
+	unsigned char buf[BUFFER_SIZE];
+	n = read(STDIN_FILENO, buf, sizeof buf);
+	write(STDOUT_FILENO, buf, n);
+}
 
 static void
 do_cat(const char *path)
